@@ -1,5 +1,5 @@
 __pycache__/
 venv/
 flask-frontend/flask-local.sh
-flas-frontend/tracks/*
-flask-frontend/icons
+flask-frontend/static/tracks/*.webm
+flask-frontend/static/icons
