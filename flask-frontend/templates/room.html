@@ -1,0 +1,75 @@
+{% extends 'components/common.html' %}
+
+{% block title %}
+	{{ room.owner }}'s Room
+{% endblock %}
+
+{% block head %}
+	<link href='/static/css/room.css' rel='stylesheet'>
+	<link href='/static/fonts/fontello/css/fontello.css' rel='stylesheet'>
+{% endblock %}
+
+{% block body %}
+	<div class='room-layout'>
+		<!-- SEARCH -->
+		<div id='search' class='TODO room__cell'>
+			search bar
+			<form id='form'>
+				<div class='input-group flex-nowrap'>
+					<input class='form-control' id='input' type='text'>
+					<button class='btn btn-outline-secondary' type='button'>Search</button>
+				</div>
+			</form>
+			<div id='query_results'></div>
+		</div>
+
+		<!-- MEMBERS TABLE -->
+		<div id='members_list' class='TODO room__cell'>
+			members table
+			<h1 class='todo'>Room {{ room.code }}</h1>
+			<table class='TODO'>
+				<thead>
+					<tr>
+						<th>Members</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ room.owner }}</td>
+					</tr>
+					{% for member in room.members %}
+						<tr>
+							<td>{{ member }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<!-- MUSIC CONTROLS -->
+		<div id='controls' class='TODO room__cell'>
+			<div id='song-title'>
+				<span>
+					<b>Song Name</b> &mdash; Author
+					<button id='copy-button' class='controls__copy'>Copy</button>
+				</span>
+				<span class='controls__duration'>mm:ss</span>
+			</div>
+			<hr class='controls__progress'>
+			<div class='controls__buttons'>
+				<button class='btn btn-lg'><i class='icon-repeat'></i></button>
+				<button class='btn'><i class='icon-next reverse'></i></button>
+				<button class='btn'><i class='icon-play'></i></button>
+				<button class='btn'><i class='icon-next'></i></button>
+				<button class='btn'><i class='icon-shuffle'></i></button>
+			</div>
+		</div>
+
+		<!-- PLAYLIST -->
+		<div id='playlist' class='TODO room__cell' style='border: 3px solid red;'>
+			playlist
+		</div>
+	</div>
+
+	{% include 'components/websockets.html' %}
+{% endblock %}

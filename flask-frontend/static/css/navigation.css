@@ -1,0 +1,31 @@
+header, footer {
+	font-size: 2em;
+}
+
+header, footer nav {
+	display: grid;
+	align-items: center;
+	justify-items: center;
+}
+
+header {
+	grid-template-columns: 20% 60% 20%;
+}
+
+header nav {
+	display: flex;
+	justify-content: center;
+}
+
+header > span {
+	padding: 3px;
+}
+
+footer {
+	flex-shrink: 0;
+	width: 100%;
+}
+
+footer nav {
+	grid-template-columns: 50% 50%;
+}

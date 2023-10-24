@@ -1,0 +1,31 @@
+/* --- NAVIGATION --- */
+.colour-theme_header,
+.colour-theme_footer {
+	background-color: #CCE992;
+	color: #654C4F;
+}
+
+
+/* --- INPUTS --- */
+.colour-theme_input-group::after,
+.colour-theme_input,
+.colour-theme_input:focus {
+	background-color: #FED4D5;
+	color: #B1898A;
+	text-transform: uppercase;
+}
+
+.colour-theme_input-group::after,
+.btn::after {
+	filter: blur(3px);
+}
+
+.colour-theme_input::placeholder {
+	color: #B1898A;
+}
+
+.btn,
+.btn::after {
+	background-color: #CCE992;
+	color: #654C4F;
+}

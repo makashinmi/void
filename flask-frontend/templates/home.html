@@ -1,0 +1,22 @@
+{% extends 'common.html' %}
+
+{% block title %}
+	Listen to music with your friends!
+{% endblock %}
+
+{% block body %}
+	<div class='custom-container'>
+		<form class='input-form' method='POST' action='/'>
+			<div class='core__after input-group input-group-lg colour-theme_input-group'>
+				<input class='form-control core__radius colour-theme_input' name='username' placeholder='YOUR NAME' type='text' maxlength='32'>
+			</div>
+
+			<div class='core__after input-group input-group-lg colour-theme_input-group'>
+				<input class='form-control core__radius colour-theme_input' name='room_code' placeholder='4-DIGIT CODE' type='text' minlength='4' maxlength='4'>
+			</div>
+			<div class='core__after input-group input-group-lg'>
+				<button class='btn btn-lg core__after core__radius colour-theme_footer'>Join</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}

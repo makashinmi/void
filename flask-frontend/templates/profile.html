@@ -1,0 +1,13 @@
+{% extends 'components/common.html' %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+	{% for key, value in user.items() %}
+	<b>{{ key }}: </b> {{ value }}<br>
+	{% endfor %}
+{% endblock %}

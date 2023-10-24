@@ -1,0 +1,58 @@
+/* --- BASIC --- */
+.TODO {
+	border: 1px red solid;
+}
+
+html, body {
+	position: relative;
+	height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+
+h3 {
+	font-size: 1.65em;
+}
+
+.custom-container {
+	display: flex;
+	flex: 1 0 auto;
+	justify-content: center;
+}
+
+.core__radius, .core__after::after {
+	border-radius: 999em !important;
+}
+
+.core__after::after {
+	inset: -4px -20px;
+	content: '';
+
+	position: absolute;
+	z-index: -1;
+}
+
+
+/* BOOTSTRAP OVERRIDE */
+
+.input-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 20px;
+}
+
+.input-group {
+	justify-content: center;
+}
+
+.form-control {
+	border: none;
+}
+
+.form-control:focus, .btn {
+	border: none;
+	box-shadow: none;
+}

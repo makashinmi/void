@@ -1,0 +1,20 @@
+{% extends 'components/common.html' %}
+
+{% block title %}Log In{% endblock %}
+
+{% block head %}
+ 	<link href='/static/home.css' rel='stylesheet'>
+{% endblock %}
+
+{% block body %}
+	<form class='TODO input-form' method='POST' action='/signup'>
+		Username
+		<input name='username' type='text' maxlength='32'>
+		Password
+		<input name='password' type='password'>
+		Repeat password
+		<input type='password'>
+		<input type='submit' value='Sign up'>
+		<sub>Already have an account? <a href='/login'>Log In</a></sub> 
+	</form>
+{% endblock %}
