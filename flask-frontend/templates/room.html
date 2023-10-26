@@ -13,14 +13,15 @@
 	<div class='room-layout'>
 		<!-- SEARCH -->
 		<div id='search' class='TODO room__cell'>
-			search bar
 			<form id='form'>
 				<div class='input-group flex-nowrap'>
 					<input class='form-control' id='input' type='text'>
 					<button class='btn btn-outline-secondary' type='button'>Search</button>
 				</div>
 			</form>
-			<div id='query_results'></div>
+			<div id='query_results'>
+
+			</div>
 		</div>
 
 		<!-- MEMBERS TABLE -->
@@ -47,21 +48,24 @@
 		</div>
 
 		<!-- MUSIC CONTROLS -->
-		<div id='controls' class='TODO room__cell'>
-			<div id='song-title'>
+		<div id='player' class='TODO room__cell'>
+			<div class='player__title'>
 				<span>
-					<b>Song Name</b> &mdash; Author
-					<button id='copy-button' class='controls__copy'>Copy</button>
+					<span id='title'><b>Author</b> &mdash; Song Name</span>
+					<button id='copyBtn' class='btn player__copy'>Copy</button>
 				</span>
-				<span class='controls__duration'>mm:ss</span>
+				<span id='duration' class='player__duration'>mm:ss</span>
 			</div>
-			<hr class='controls__progress'>
-			<div class='controls__buttons'>
-				<button class='btn btn-lg'><i class='icon-repeat'></i></button>
-				<button class='btn'><i class='icon-next reverse'></i></button>
-				<button class='btn'><i class='icon-play'></i></button>
-				<button class='btn'><i class='icon-next'></i></button>
-				<button class='btn'><i class='icon-shuffle'></i></button>
+			<div class='player__progress'>
+				<hr>
+			</div>
+			<div class='player__controls'>
+				<button id='repeatBtn' class='btn'><i class='icon-repeat'></i></button>
+				<button id='prevBtn' class='btn'><i class='icon-next reverse'></i></button>
+				<button id='playBtn' class='btn'><i class='icon-play'></i></button>
+				<button id='pauseBtn' class='btn'><i class='icon-pause'></i></button>
+				<button id='nextBtn' class='btn'><i class='icon-next'></i></button>
+				<button id='shuffleBtn' class='btn'><i class='icon-shuffle'></i></button>
 			</div>
 		</div>
 
@@ -71,5 +75,10 @@
 		</div>
 	</div>
 
-	{% include 'components/websockets.html' %}
+	{% block scripts %}
+		<script src='/static/js/player.js'></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+		<script src='/static/js/websockets.js' charset='utf=8'>
+	{% endblock %}
 {% endblock %}
