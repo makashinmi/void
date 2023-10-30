@@ -13,22 +13,22 @@
 	<div class='room-layout'>
 		<!-- SEARCH -->
 		<div id='search' class='TODO room__cell'>
-			<form id='form'>
+			<form id='search__form'>
 				<div class='input-group flex-nowrap'>
-					<input class='form-control' id='input' type='text'>
+					<input id='search__input' class='form-control' type='text'>
 					<button class='btn btn-outline-secondary' type='button'>Search</button>
 				</div>
 			</form>
-			<div id='query_results'>
+			<div id='search__results'>
 
 			</div>
 		</div>
 
 		<!-- MEMBERS TABLE -->
-		<div id='members_list' class='TODO room__cell'>
+		<div id='info' class='TODO room__cell'>
 			members table
-			<h1 class='todo'>Room {{ room.code }}</h1>
-			<table class='TODO'>
+			<h1 id='info__code' class='todo'>Room {{ room.code }}</h1>
+			<table id='info__table' class='TODO'>
 				<thead>
 					<tr>
 						<th>Members</th>
@@ -76,9 +76,13 @@
 	</div>
 
 	{% block scripts %}
-		<script src='/static/js/player.js'></script>
-
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-		<script src='/static/js/websockets.js' charset='utf=8'>
+		<script src='/static/js/websockets.js' type='module' charset='utf=8'></script>
+
+		<script src='/static/js/search.js' type='module'></script>
+
+		<script src='/static/js/info.js' type='module'></script>
+
+		<script src='/static/js/player.js'></script>
 	{% endblock %}
 {% endblock %}

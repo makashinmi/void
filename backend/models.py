@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 from datetime import date
 
 
@@ -13,14 +14,14 @@ class User(BaseModel):
 class Room(BaseModel):
     code: str
     owner: str 
-    members: list[str] | None
-    playlist: list[dict] | None
+    members: list[str] | None = None
+    playlist: list[dict] | None = None
     
 
 class Guest(BaseModel):
-    id: int | None
     username: str
-    room_code: Room
+    room_code: str 
+    sid: str | None = None
 
 
 class TrackQuery(BaseModel):

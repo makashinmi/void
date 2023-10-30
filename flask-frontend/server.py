@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, make_response, request as in
 import requests as rq
 import json
 from hashlib import md5
-from flask_socketio import SocketIO, emit, send
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from time import sleep
 
 
@@ -19,8 +19,11 @@ def homePage():
 @app.post('/')
 def joinRoom():
     guest_data = incame_request.form
-    room_data = json.loads(rq.get(f'{API_URL}/rooms/{guest_data["room_code"].upper()}').text)
-    return render_template('room.html', room=room_data) if room_data else render_template('new_home.html') 
+    guest = {'username': guest_data['username'], 'room_code': guest_data['room_code'].upper(), 'sid': ''}
+    room_data = json.loads(rq.get(f'{API_URL}/rooms/{guest["room_code"]}').text)
+    if room_data:
+        return render_template('room.html', room=room_data)
+    return render_template('home.html') 
 
 
 @app.get('/login')
@@ -88,23 +91,32 @@ def profilePage():
 
 
 #--- WEBSOCKET FUNCTIONALITY ---#
-@socketio.on('my event')
-def handle_message(data):
-    print(f'received message: {data}')
+@socketio.on('join')
+def join(data):
+    guest = {'username': data['username'], 'room_code': data['room_code'].upper(), 'sid': incame_request.sid}
+    rq.post(f'{API_URL}/guests/', data=json.dumps(guest))
+    join_room(data['room_code'].upper())
+    emit('join', data['username'], to=data['room_code'].upper())
+
+@socketio.on('disconnect')
+def leave():
+    response = rq.delete(f'{API_URL}/guests/?sid={incame_request.sid}').text
+    guest = json.loads(response)
+    print(guest)
+    if guest:
+        emit('leave', guest['username'], to=guest['room_code'])
 
 @socketio.on('track_query')
 def lookup_query(query):
-    print(query)
     result = json.loads(rq.get(f'{API_URL}/tracks/RULA?source=youtube&query={query}').text)
-    # result['id'] = 'dQw4w9WgXcQ'  # rickroll :D
-    emit('track_query_result', result)
+    emit('track_query_options', result)
 
 @socketio.on('track_query_choice')
 def download_track(youtube_id):
+    emit('track_query_download_progress', {'id': youtube_id}, to='RULA')
     track = json.loads(rq.post(f'{API_URL}/tracks/RULA?source=youtube&id={youtube_id}').text)
-    print(track)
     # track['path'] = '/static/tracks/rickroll.webm'
-    emit('track_query_finish', track)
+    emit('track_query_download_finish', track, to='RULA')
 
 
 if __name__ == '__main__':

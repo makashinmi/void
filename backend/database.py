@@ -21,15 +21,31 @@ class Database:
         self.connection.commit()
 
     def getRoomByCode(self, code: str):
-        room_members = self.cur.execute('SELECT username FROM guests WHERE room_code=? UNION SELECT owner FROM rooms WHERE code=?', [code, code]).fetchall()
-        print(code, room_members)
-        playlist = self.cur.execute('SELECT name, duration_seconds, path FROM tracks WHERE room_code=?', [code]).fetchall()
-        playlist = [{'name': track[0], 'duration_seconds': track[1], 'path': track[2]} for track in playlist]
-        room = models.Room(code=code, owner=room_members[1][0], members=list(room_members[0]), playlist=playlist) if room_members else None
-        return room 
+        owner = self.cur.execute('SELECT owner FROM rooms WHERE code=?', [code]).fetchone()
+        if owner:
+            members = self.cur.execute('SELECT username FROM guests WHERE room_code=?', [code]).fetchall()
+            playlist = self.cur.execute('SELECT name, duration_seconds, path FROM tracks WHERE room_code=?', [code]).fetchall()
+            playlist = [{'name': track[0], 'duration_seconds': track[1], 'path': track[2]} for track in playlist]
+            room = models.Room(code=code, owner=owner[0], members=[row[0] for row in members], playlist=playlist)
+            return room 
+        return None
 
     def getUserByUsername(self, username: str):
-        print(username)
-        un, pw, ml, rv, ms  = self.cur.execute('SELECT username, password, minutes_listened, rooms_visited, member_since FROM users WHERE username=?', [username]).fetchone()
-        return models.User(username=un, password=pw, minutes_listened=ml, rooms_visited=rv, member_since=ms)
+        user = self.cur.execute('SELECT username, password, minutes_listened, rooms_visited, member_since FROM users WHERE username=?', [username]).fetchone()
+        if user:
+            un, pw, ml, rv, ms = user
+            return models.User(username=un, password=pw, minutes_listened=ml, rooms_visited=rv, member_since=ms)
+        return None
+
+    def insertGuest(self, guest: models.Guest):
+        self.cur.execute('INSERT INTO guests (username, room_code, sid) VALUES (?, ?, ?)', [value for key, value in guest])
+        self.connection.commit()
+
+    def removeGuest(self, sid: str):
+        guest = self.cur.execute('DELETE FROM guests WHERE sid=? RETURNING username, room_code', [sid]).fetchone()
+        self.connection.commit()
+        if guest:
+            username, room_code = guest
+            return models.Guest(username=username, room_code=room_code, sid='')
+        return None 
 

@@ -40,9 +40,13 @@ async def getRoomByCode(code: str):
     return db.getRoomByCode(code)
 
 
-@app.post('')
-async def addGuestToRoom(guest: models.Guest):
-    pass
+@app.post('/api/guests/')
+async def insertGuest(guest: models.Guest):
+    db.insertGuest(guest)
+
+@app.delete('/api/guests/')
+async def removeGuest(sid: str):
+    return db.removeGuest(sid)
     
 
 @app.get('/api/tracks/{room_code}')

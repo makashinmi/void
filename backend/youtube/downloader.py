@@ -12,6 +12,7 @@ def getResultsByQuery(query: str):
         raise Exception('No videos longer than 60 seconds were found')
 
 
+# Average Bitrate
 def _sortByABrDescending(stream):
     return -1 * int(stream.abr.replace('kbps', ''))
 
@@ -23,7 +24,6 @@ def downloadAudioById(id_: str):
     if audio_streams:
         audio_streams.sort(key=_sortByABrDescending)
         path = '/'.join(audio_streams[0].download(output_path='/home/michael/Workspace/Python/void/flask-frontend/static/tracks').split('/')[-3::])
-        print(path)
         return {'id': id_, 'path': f'/{path}'}
         # what next????
         # Stream Object has arguments for callbacks implemented, look into that
