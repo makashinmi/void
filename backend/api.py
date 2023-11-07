@@ -63,7 +63,7 @@ async def downloadBySourceId(room_code: str, source: str, id: str):
     match source:
         case 'youtube':
             track = models.Track(**yt.downloadAudioById(id))
-            
         case _:
             raise Exception(f'Wrong source: {source}') 
+    db.insertTrack(track)
     return track

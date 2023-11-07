@@ -45,7 +45,7 @@ class Database:
         self.connection.commit()
 
     def insertTrack(self, track: models.Track):
-        self.cur.execute(f'INSERT INTO {", ".join(TRACK_COLUMNS)} VALUES ({", ".join(["?"] * len(TRACK_COLUMNS))})')
+        self.cur.execute(f'INSERT INTO {", ".join(TRACK_COLUMNS)} VALUES ({", ".join(["?"] * len(TRACK_COLUMNS))})', [key for key, value in track] + [value for key, value in track])
         self.connection.commit()
 
     def removeGuest(self, sid: str):

@@ -31,8 +31,8 @@ class TrackQuery(BaseModel):
 
 
 class Track(BaseModel):
-    author: str
     name: str
+    author: str
     duration_seconds: int
     source_name: str 
     source_id: str

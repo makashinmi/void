@@ -41,7 +41,6 @@ Player.prototype = {
 
 			if (self.current_audio.src === '') self.skipTo(0);
 			self.current_audio.play();
-			console.log(self.index);
 		};
 	},
 	pause: function () {
@@ -78,9 +77,7 @@ Player.prototype = {
 	skipTo: function (index) {
 		var self = this;
 
-		self.index = index > self.playlist.length - 1 ? self.playlist_order[0] : index < 0 ? self.playlist_order[self.playlist.length - 1] : self.playlist_order[index];
-		console.log('CURRENT INDEX: ' + self.index);
-		console.log('NOW PLAYING: ' + self.playlist_order[self.index]);
+		self.index = index > self.playlist.length - 1 ? 0 : index < 0 ? self.playlist.length - 1 : index;
 		var track_obj = self.playlist[self.playlist_order[self.index]];
 
 		self.current_audio.src = `/static/tracks/${track_obj.file}.webm`;
@@ -92,7 +89,6 @@ Player.prototype = {
 		var self = this;
 
 		self.shuffled = !self.shuffled;
-		self.resetPlaylistOrder();
 
 		if (self.shuffled) {
 			// http://stackoverflow.com/questions/962802#962890
@@ -102,10 +98,12 @@ Player.prototype = {
 				tmp = self.playlist_order[current];
 				self.playlist_order[current] = self.playlist_order[top];
 				self.playlist_order[top] = tmp;
-			};
+			}
 			self.index = self.playlist_order.indexOf(self.index);
+		} else {
+			self.index = self.playlist_order[self.index];
+			self.resetPlaylistOrder()
 		};
-		console.log('NEW PLAYLIST ORDER: ' + self.playlist_order);
 	}
 };
 
