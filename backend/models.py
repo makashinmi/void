@@ -31,11 +31,12 @@ class TrackQuery(BaseModel):
 
 
 class Track(BaseModel):
-    id: str 
-    room_code: str
+    author: str
     name: str
     duration_seconds: int
-    path: str
+    source_name: str 
+    source_id: str
+    file: str
 
 
 class Playlist(BaseModel):

@@ -1,0 +1,3 @@
+.core__after::after {
+	inset: -4px -20px;
+}

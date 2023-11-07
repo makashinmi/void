@@ -1,4 +1,5 @@
 import { socket } from './websockets.js';
+import { player } from './player.js';
 
 const searchForm = document.getElementById('search__form');
 const searchInput = document.getElementById('search__input');
@@ -59,10 +60,23 @@ socket.on('track_query_download_progress', (data_obj) => {
 	playlist.appendChild(temp);
 });
 
-socket.on('track_query_download_finish', (data_obj) => {
-	const track = document.createElement('div');
-	track.innerHTML = `<audio controls><source src='${data_obj.path}' type='audio/webm'></audio>`
-	var temp = document.getElementById(data_obj.id);
-	temp.parentNode.removeChild(temp);
-	playlist.appendChild(track);
+socket.on('track_query_download_finish', (track) => {
+	var temp = document.createElement('div');
+	temp.innerHTML = `
+	<div id='${track.source_name}-${track.source_id}-${player.playlist.length}' class='playlist__track'>
+		<i class='btn core__after core__radius icon-play'></i>
+		<span class='title'>
+			<span>${ track.name }</span>
+			<span><b>${ track.author }</b></span>
+		</span>
+		<span class='duration'>
+			${ track.duration_seconds }
+		</span>
+	</div>
+	`;
+	temp.addEventListener('click', player.play.bind(player, player.playlist.length));
+	console.log(track)
+	playlist.removeChild(document.getElementById(track.source_id));
+	playlist.appendChild(temp);
+	player.playlist.push(track);
 });

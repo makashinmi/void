@@ -2,12 +2,17 @@ footer {
 	display: none;
 }
 
+.core__after::after {
+	inset: -6px;
+}
+
 .room-layout {
 	display: grid;
 	min-width: 100%;
 	grid-template-columns: repeat(4, 25%);
 	grid-template-rows: repeat(10, 10%);
 }
+
 
 .room-layout > div {
 	padding: 1rem;	
@@ -37,11 +42,48 @@ footer {
 	bottom: 0;
 	right: 1rem;
 	left: 1rem;
-	z-index: 1;
+	z-index: 2;
 }
 
 .track-query-option:hover {
 	background-color: #F0F0F0;
+}
+
+/* --- INFO TABLE --- */
+#info {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.info__code {
+	display: inline-block;
+}
+
+.info__code button {
+	vertical-align: middle;
+}
+#room_code {
+	vertical-align: middle;
+	font-size: 2em;
+}
+
+#room_code::before {
+	content: '#';
+}
+
+#members_table {
+	border-collapse: collapse;
+}
+
+#members_table th {
+	border: 3px solid blue;
+	border-radius: 999em 999em 0 0;
+	border-collapse: collapse;
+}
+
+#member_table tbody {
+	border: 3px solid green;
 }
 
 /* --- PLAYER --- */
@@ -56,17 +98,17 @@ footer {
       font-style: normal;
 }
 
-.player__progress {
+.controls__progress {
 	position: relative;
 }
 
-.player__progress hr {
+.controls__progress hr {
 	position: relative;
 	height: 3px;
 	color: black;
 }
 
-.player__progress::before {
+.controls__progress::before {
 	position: absolute;
 	left: 0;
 	height: 3px;
@@ -75,32 +117,53 @@ footer {
 	content: '';
 }
 
-.player__title {
+.controls__title {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.player__controls {
+.controls__buttons {
 	display: flex;
 	justify-content: space-between;
 }
 
-.player__controls button {
+.controls__buttons button {
 	background: none;
 }
 
-.player__controls i {
+.controls__buttons i {
 	font-size: 1.8rem;
 }
 
-.player__controls i.active::before {
+.controls__buttons i.active::before {
 	color: blue;
 }
 
-.player__controls i.reverse::before {
+.controls__buttons i.reverse::before {
 	transform: scale(-1, 1);
+}
+
+/* --- PLAYLIST --- */
+.playlist__track {
+	cursor: pointer;
+}
+
+.playlist__track span, 
+.playlist__track i
+{
+	vertical-align: baseline;	
+}
+
+.playlist__track i {
+	padding: 0 !important;
+	position: relative;
+	margin: 6px;
+}
+
+.playlist__track i::before {
+	margin: 3px;
 }
 
 
@@ -115,7 +178,7 @@ footer {
 	grid-row: 1 / span 4;
 }
 
-#player {
+#controls {
 	grid-column: 1 / span 2;
 	grid-row: 3 / span 2;
 }
@@ -138,7 +201,7 @@ footer {
 		grid-row: 1 / span 4;
 	}
 
-	#player {
+	#controls {
 		grid-column: 1 / span 3;
 		grid-row: 3 / span 2;
 	}
@@ -161,7 +224,7 @@ footer {
 		display: none;
 	}
 
-	#player {
+	#controls {
 		grid-column: 1 / span 4;
 		grid-row: 9 / span 2;
 	}

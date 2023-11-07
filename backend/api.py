@@ -62,7 +62,8 @@ async def getResultsByQuery(room_code: str, source: str, query: str, extra: bool
 async def downloadBySourceId(room_code: str, source: str, id: str):
     match source:
         case 'youtube':
-            track = yt.downloadAudioById(id)
+            track = models.Track(**yt.downloadAudioById(id))
+            
         case _:
             raise Exception(f'Wrong source: {source}') 
     return track

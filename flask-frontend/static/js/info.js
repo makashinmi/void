@@ -1,7 +1,7 @@
 import { socket } from './websockets.js';
 
-var members_table = document.getElementById('info__table').tBodies[0];
-var room_code = document.getElementById('info__code');
+var members_table = document.getElementById('members_table').tBodies[0];
+var room_code = document.getElementById('room_code');
 
 socket.on('connect', () => {
 	socket.emit('join', {'username': localStorage.getItem('username'), 'room_code': localStorage.getItem('room_code')}); 

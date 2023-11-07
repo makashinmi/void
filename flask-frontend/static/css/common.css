@@ -27,9 +27,7 @@ h3 {
 }
 
 .core__after::after {
-	inset: -4px -20px;
 	content: '';
-
 	position: absolute;
 	z-index: -1;
 }

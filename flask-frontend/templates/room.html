@@ -12,23 +12,23 @@
 {% block body %}
 	<div class='room-layout'>
 		<!-- SEARCH -->
-		<div id='search' class='TODO room__cell'>
+		<div id='search' class='room__cell'>
 			<form id='search__form'>
 				<div class='input-group flex-nowrap'>
 					<input id='search__input' class='form-control' type='text'>
 					<button class='btn btn-outline-secondary' type='button'>Search</button>
 				</div>
 			</form>
-			<div id='search__results'>
-
-			</div>
+			<div id='search__results'></div>
 		</div>
 
-		<!-- MEMBERS TABLE -->
+		<!-- INFO TABLE -->
 		<div id='info' class='TODO room__cell'>
-			members table
-			<h1 id='info__code' class='todo'>Room {{ room.code }}</h1>
-			<table id='info__table' class='TODO'>
+			<span class='info__code'>
+				<span id='room_code' class='todo'>{{ room.code }}</span>
+				<button class='btn'>Copy</button>
+			</span>
+			<table id='members_table' class=''>
 				<thead>
 					<tr>
 						<th>Members</th>
@@ -48,18 +48,18 @@
 		</div>
 
 		<!-- MUSIC CONTROLS -->
-		<div id='player' class='TODO room__cell'>
-			<div class='player__title'>
+		<div id='controls' class='TODO room__cell'>
+			<div class='controls__title'>
 				<span>
-					<span id='title'><b>Author</b> &mdash; Song Name</span>
-					<button id='copyBtn' class='btn player__copy'>Copy</button>
+					<span id='title'><b>...</b> &mdash; ...</span>
+					<button class='btn' onclick='alert("copied!")'>Copy</button>
 				</span>
-				<span id='duration' class='player__duration'>mm:ss</span>
+				<span id='duration' class='player__duration'>--:--</span>
 			</div>
-			<div class='player__progress'>
+			<div class='controls__progress'>
 				<hr>
 			</div>
-			<div class='player__controls'>
+			<div class='controls__buttons'>
 				<button id='repeatBtn' class='btn'><i class='icon-repeat'></i></button>
 				<button id='prevBtn' class='btn'><i class='icon-next reverse'></i></button>
 				<button id='playBtn' class='btn'><i class='icon-play'></i></button>
@@ -71,11 +71,26 @@
 
 		<!-- PLAYLIST -->
 		<div id='playlist' class='TODO room__cell' style='border: 3px solid red;'>
-			playlist
+			{% for track in room.playlist %}
+				<div id='{{ track.source_name }}-{{ track.source_id }}' class='playlist__track'>
+					<i class='btn core__after core__radius icon-play'></i>
+					<span class='title'>
+						<span>{{ track.name }}</span>
+						<span><b>{{ track.author }}</b></span>
+					</span>
+					<span class='duration'>
+						{{ track.duration_seconds }}
+					</span>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 
 	{% block scripts %}
+		<script>
+			var playlist_obj = {{ room.playlist | tojson() }};
+		</script>
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 		<script src='/static/js/websockets.js' type='module' charset='utf=8'></script>
 
@@ -83,6 +98,7 @@
 
 		<script src='/static/js/info.js' type='module'></script>
 
-		<script src='/static/js/player.js'></script>
+		<script src='/static/js/player.js' type='module'>
+		</script>
 	{% endblock %}
 {% endblock %}

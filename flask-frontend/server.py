@@ -64,7 +64,6 @@ def signupValidation():
 @app.get('/profile/<username>')
 def showUserProfile(username: str):
     user = json.loads(rq.get(f'{API_URL}/users/{username}').text)
-    print(user)
     return render_template('profile.html', user=user)
 
 
@@ -102,7 +101,6 @@ def join(data):
 def leave():
     response = rq.delete(f'{API_URL}/guests/?sid={incame_request.sid}').text
     guest = json.loads(response)
-    print(guest)
     if guest:
         emit('leave', guest['username'], to=guest['room_code'])
 

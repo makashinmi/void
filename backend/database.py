@@ -2,6 +2,8 @@ import sqlite3
 import models
 from datetime import datetime as dt
 
+TRACK_COLUMNS = ('name', 'author', 'duration_seconds', 'source_name', 'source_id', 'file')
+
 
 class Database:
     def __init__(self):
@@ -24,8 +26,9 @@ class Database:
         owner = self.cur.execute('SELECT owner FROM rooms WHERE code=?', [code]).fetchone()
         if owner:
             members = self.cur.execute('SELECT username FROM guests WHERE room_code=?', [code]).fetchall()
-            playlist = self.cur.execute('SELECT name, duration_seconds, path FROM tracks WHERE room_code=?', [code]).fetchall()
-            playlist = [{'name': track[0], 'duration_seconds': track[1], 'path': track[2]} for track in playlist]
+            playlist = self.cur.execute(f'SELECT {", ".join(TRACK_COLUMNS)} FROM tracks INNER JOIN playlist ON playlist.room_code=?', [code]).fetchall()
+            playlist = [dict(zip(TRACK_COLUMNS, track)) for track in playlist]
+            print(playlist)
             room = models.Room(code=code, owner=owner[0], members=[row[0] for row in members], playlist=playlist)
             return room 
         return None
@@ -39,6 +42,10 @@ class Database:
 
     def insertGuest(self, guest: models.Guest):
         self.cur.execute('INSERT INTO guests (username, room_code, sid) VALUES (?, ?, ?)', [value for key, value in guest])
+        self.connection.commit()
+
+    def insertTrack(self, track: models.Track):
+        self.cur.execute(f'INSERT INTO {", ".join(TRACK_COLUMNS)} VALUES ({", ".join(["?"] * len(TRACK_COLUMNS))})')
         self.connection.commit()
 
     def removeGuest(self, sid: str):
