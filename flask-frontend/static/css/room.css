@@ -1,3 +1,8 @@
+*, ::before, ::after {
+	letter-spacing: 2px;
+}
+
+
 footer {
 	display: none;
 }
@@ -99,22 +104,26 @@ footer {
 }
 
 .controls__progress {
+	padding: 16px 0;
 	position: relative;
+	align-items: center;
 }
 
-.controls__progress hr {
+.controls__progress div {
+	background-color: lightgray;
 	position: relative;
 	height: 3px;
-	color: black;
+	margin: 0;
 }
 
-.controls__progress::before {
+#progressBar {
 	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto 0;
 	left: 0;
-	height: 3px;
 	background-color: black;
-	width: 35%;
-	content: '';
+	width: 0%;
 }
 
 .controls__title {
@@ -148,6 +157,7 @@ footer {
 /* --- PLAYLIST --- */
 .playlist__track {
 	cursor: pointer;
+	padding: 5px 0;
 }
 
 .playlist__track span, 

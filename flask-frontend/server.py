@@ -4,10 +4,12 @@ import json
 from hashlib import md5
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from time import sleep
+from os import environ as env
 
 
 app = Flask(__name__)
 app.debug = True
+app.config['SECRET_KEY'] = env.get('VOID_SECRET') or '5upErS3cr37'
 API_URL = 'http://localhost:8000/api'
 socketio = SocketIO(app)
 

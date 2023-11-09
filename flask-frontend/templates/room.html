@@ -35,9 +35,11 @@
 					</tr>
 				</thead>
 				<tbody>
+					<!--
 					<tr>
 						<td>{{ room.owner }}</td>
 					</tr>
+					-->
 					{% for member in room.members %}
 						<tr>
 							<td>{{ member }}</td>
@@ -56,8 +58,9 @@
 				</span>
 				<span id='duration' class='player__duration'>--:--</span>
 			</div>
-			<div class='controls__progress'>
-				<hr>
+			<div id='progress' class='controls__progress'>
+				<div></div>
+				<div id='progressBar'></div>
 			</div>
 			<div class='controls__buttons'>
 				<button id='repeatBtn' class='btn'><i class='icon-repeat'></i></button>
@@ -75,11 +78,11 @@
 				<div id='{{ track.source_name }}-{{ track.source_id }}' class='playlist__track'>
 					<i class='btn core__after core__radius icon-play'></i>
 					<span class='title'>
-						<span>{{ track.name }}</span>
 						<span><b>{{ track.author }}</b></span>
+						<span>{{ track.name }}</span>
 					</span>
 					<span class='duration'>
-						{{ track.duration_seconds }}
+						({{ track.duration_seconds // 60 }}:{{ track.duration_seconds - track.duration_seconds // 60 * 60 }})
 					</span>
 				</div>
 			{% endfor %}

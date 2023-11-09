@@ -28,7 +28,6 @@ class Database:
             members = self.cur.execute('SELECT username FROM guests WHERE room_code=?', [code]).fetchall()
             playlist = self.cur.execute(f'SELECT {", ".join(TRACK_COLUMNS)} FROM tracks INNER JOIN playlist ON playlist.room_code=?', [code]).fetchall()
             playlist = [dict(zip(TRACK_COLUMNS, track)) for track in playlist]
-            print(playlist)
             room = models.Room(code=code, owner=owner[0], members=[row[0] for row in members], playlist=playlist)
             return room 
         return None
