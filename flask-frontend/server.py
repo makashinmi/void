@@ -119,5 +119,10 @@ def download_track(youtube_id):
     emit('track_query_download_finish', track, to='RULA')
 
 
+@socketio.on('init_player_sync')
+def distribute_sync(obj):
+    emit('follow_sync', obj, to='RULA', skip_sid=incame_request.sid)
+
+
 if __name__ == '__main__':
     socketio.run(app)
