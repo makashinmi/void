@@ -1,3 +1,23 @@
 .core__after::after {
 	inset: -4px -20px;
 }
+
+input {
+	text-transform: uppercase;
+}
+
+form div:nth-child(2) {
+	position: relative;
+}
+
+form div:nth-child(2)::before {
+	content: '#';
+	color: var(--secondary-font);
+	font-size: 25px;
+	line-height: revert;	
+	position: absolute;
+	top: 8%;
+	margin: auto;
+	left: -0.3rem;
+	z-index: 6;
+}

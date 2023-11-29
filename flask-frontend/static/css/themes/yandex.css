@@ -1,0 +1,26 @@
+:root {
+	--primary-bg: #FED700;
+	--primary-font: black;
+
+	--secondary-bg: white;
+	--secondary-font: gray;
+
+	--accent-bg: #3a3845;
+	--accent-font: white;
+
+	--background-color: white;
+}
+
+.input-form .core__after::after {
+	box-shadow: 4px 4px lightgray;
+	border: 3px gray solid;
+}
+
+.input-form button {
+	color: var(--accent-font);
+	background-color: var(--accent-bg);
+}
+.input-form .input-group button::after {
+	border: none;
+	background-color: var(--accent-bg) !important;
+}

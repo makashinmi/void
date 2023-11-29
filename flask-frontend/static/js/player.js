@@ -52,6 +52,7 @@ Player.prototype = {
 		if (self.playlist.length > 0) {
 			playBtn.style.display = 'none';
 			pauseBtn.style.display = 'block';
+			pauseBtn.focus();
 
 			if (self.current_audio.src === '') self.skipTo(0);
 			/*
@@ -66,6 +67,7 @@ Player.prototype = {
 		self.current_audio.pause();
 		playBtn.style.display = 'block';
 		pauseBtn.style.display = 'none';
+		playBtn.focus();
 	},
 	resetPlaylistOrder: function () {
 		var self = this;
@@ -123,10 +125,12 @@ var switchActiveState = function (e) {
 	let target = e.currentTarget;
 	if (target.hasAttribute('active')) {
 		target.removeAttribute('active');
-		target.firstChild.classList.remove('active');
+		target.firstChild.classList.remove('colour-theme__font_primary');
+		target.firstChild.classList.add('colour-theme__font_secondary');
 	} else {
 		target.setAttribute('active', '');
-		target.firstChild.classList.add('active');
+		target.firstChild.classList.remove('colour-theme__font_secondary');
+		target.firstChild.classList.add('colour-theme__font_primary');
 	};
 };
 
@@ -181,6 +185,7 @@ progress.addEventListener('mousemove', function (e) {
 	if(player.current_audio.src) {
 		progressHint.style.display = 'block';
 		per = (e.clientX - progress.offsetLeft) / progress.offsetWidth;
+		per = per > 1 ? 1 : per < 0 ? 0 : per;
 		progressHint.style.left = `${e.clientX - progress.offsetLeft - progressHint.offsetWidth / 2}px`;
 		progressHint.innerText = player.formatTime(Math.floor(player.current_audio.duration * per));
 	};

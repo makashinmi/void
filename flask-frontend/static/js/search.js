@@ -31,6 +31,13 @@ var track_query_choice = function (id) {
 	query_results.innerHTML = '';
 };
 
+var formatTime = function (duration_seconds) {
+	var seconds = duration_seconds % 60;
+	var minutes = (duration_seconds - seconds) / 60;
+	console.log(minutes + ':' + seconds > 10 ? '' : '0' + seconds);
+	return minutes + ':' + (seconds > 10 ? seconds : '0' + seconds);
+};
+
 socket.on('track_query_options', (options) => {
 	searchInput.removeAttribute('disabled');
 	searchButton.removeAttribute('disabled');
@@ -43,12 +50,7 @@ socket.on('track_query_options', (options) => {
 		var track = options[i];
 		row.addEventListener('click', track_query_choice.bind(null, track.id));
 
-		var seconds = track.duration_seconds % 60;
-		var minutes = (track.duration_seconds - seconds) / 60;
-		if (seconds < 10) {
-			seconds = `0${seconds}`;
-		};
-		row.innerHTML = `<b>${track.author}</b> &mdash; ${track.name} (${minutes}:${seconds})`;
+		row.innerHTML = `<b>${track.author}</b> &mdash; ${track.name} (${formatTime(track.duration_seconds)})`;
 		query_results.appendChild(row);
 	};
 });
@@ -66,11 +68,11 @@ socket.on('track_query_download_finish', (track) => {
 	<div id='${track.source_name}-${track.source_id}-${player.playlist.length}' class='playlist__track'>
 		<i class='btn core__after core__radius icon-play'></i>
 		<span class='title'>
-			<span>${ track.name }</span>
 			<span><b>${ track.author }</b></span>
+			<span>${ track.name }</span>
 		</span>
 		<span class='duration'>
-			${ track.duration_seconds }
+			(${ formatTime(track.duration_seconds) })
 		</span>
 	</div>
 	`;

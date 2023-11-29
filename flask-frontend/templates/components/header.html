@@ -1,20 +1,21 @@
-<header class='colour-theme_header'>
+<header class='colour-theme__bg_primary'>
 	<span>
-		<a href='{{ url_for("homePage") }}'><h3>Logo</h3></a>	
+		<a class='colour-theme__font_secondary' href='{{ url_for("homePage") }}'>Logo</a>
 	</span>
 
 	<span>
 		{% if room %}
-			{{ room.owner }}'s
+			{{ room.owner }}'s Room
+		{% else %}
+			TODO: better title
 		{% endif %}
-		Room
 	</span>
 
 	<span>
-		{% if user and user.is_authenticated %}
-			<a href='{{ url_for("showUserProfile", user.username) }}'>{{ user.username }}</a>
+		{% if current_user.is_authenticated %}
+			<a class='colour-theme__font_secondary' href='{{ url_for("showUserProfile", username=current_user.username) }}'>{{ current_user.username }}</a>
 		{% else %}
-			<a href='{{ url_for("loginPage") }}'>Log In</a>
+			<a class='colour-theme__font_secondary' href='{{ url_for("loginPage") }}'>Log In</a>
 		{% endif %}
 	</span>
 </header>

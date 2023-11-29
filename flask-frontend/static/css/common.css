@@ -1,6 +1,6 @@
 /* --- BASIC --- */
-.TODO {
-	border: 1px red solid;
+#test:hover {
+	filter: invert(1);
 }
 
 html, body {
@@ -11,30 +11,40 @@ html, body {
 body {
 	display: flex;
 	flex-direction: column;
-
-h3 {
-	font-size: 1.65em;
 }
 
 .custom-container {
 	display: flex;
 	flex: 1 0 auto;
 	justify-content: center;
+	position: relative;
 }
 
-.core__radius, .core__after::after {
+.custom-container::after {
+	z-index: -42;
+	position: absolute;
+	content: '';
+	inset: 0;
+
+}
+
+.core__radius, .core__radius::after {
 	border-radius: 999em !important;
+}
+
+.core__after {
+	position: relative;
 }
 
 .core__after::after {
 	content: '';
 	position: absolute;
 	z-index: -1;
+	inset: 0;
 }
 
 
-/* BOOTSTRAP OVERRIDE */
-
+/* --- BOOTSTRAP OVERRIDE --- */
 .input-form {
 	display: flex;
 	flex-direction: column;
@@ -50,7 +60,58 @@ h3 {
 	border: none;
 }
 
-.form-control:focus, .btn, .btn:focus {
+.form-control:focus {
 	border: none;
 	box-shadow: none;
+}
+
+button {
+	border: none;
+	box-shadow: none;
+}
+
+/* --- COLOURING --- */
+input::placeholder {
+	color: var(--secondary-font) !important;
+}
+
+input:focus, input:hover {
+	color: var(--primary-font) !important;
+}
+input {
+	transition: color .1s;
+}
+
+.colour-theme__bg_primary,
+.colour-theme__bg_primary::after, 
+.colour-theme__bg_primary:focus {
+	background-color: var(--primary-bg);
+}
+
+.colour-theme__font_primary,
+.colour-theme__font_primary::placeholder,
+.colour-theme__font_primary:focus {
+	color: var(--primary-font);
+}
+
+.colour-theme__bg_secondary,
+.colour-theme__bg_secondary::after, 
+.colour-theme__bg_secondary:focus {
+	background-color: var(--secondary-bg);
+}
+
+.colour-theme__font_secondary,
+.colour-theme__font_secondary::placeholder,
+.colour-theme__font_secondary:focus {
+	color: var(--secondary-font);
+}
+
+.colour-theme__accent,
+.colour-theme__accent::after {
+	background-color: var(--accent-bg);
+	color: var(--accent-font);
+}
+
+.custom-container::after {
+	background-color: var(--background-color);
 }

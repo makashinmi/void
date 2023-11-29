@@ -5,7 +5,7 @@
 		<link href='/static/css/common.css' rel='stylesheet'>
 		<link href='/static/css/navigation.css' rel='stylesheet'>
 
-		<link href='/static/css/themes/fluffy.css' rel='stylesheet'>
+		<link href='/static/css/themes/{{ colour_theme }}.css' rel='stylesheet'>
 
 		<meta charset='UTF-8'>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">  
@@ -14,7 +14,7 @@
 		<title>{% block title %}{% endblock %} | Void </title>
 		{% block head %}{% endblock %}
 	</head>
-	<body>
+	<body class='colour-theme__font_primary'>
 		{% include 'components/header.html' %}
 
 		<div class='custom-container'>{% block body %}{% endblock %}</div>

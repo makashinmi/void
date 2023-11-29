@@ -15,8 +15,10 @@
 		<div id='search' class='room__cell'>
 			<form id='search__form'>
 				<div class='input-group flex-nowrap'>
-					<input id='search__input' class='form-control' type='text'>
-					<button class='btn btn-outline-secondary' type='button'>Search</button>
+					<div class='core__after core__radius colour-theme__bg_secondary'>
+						<input id='search__input' class='core__radius form-control colour-theme__bg_secondary' placeholder='Type your search query...' type='text'>
+					</div>
+						<button id='searchButton' class='colour-theme__bg_primary core__after core__radius'>Search</button>
 				</div>
 			</form>
 			<div id='search__results'></div>
@@ -26,7 +28,7 @@
 		<div id='info' class='TODO room__cell'>
 			<span class='info__code'>
 				<span id='room_code' class='todo'>{{ room.code }}</span>
-				<button class='btn'>Copy</button>
+				<button onclick="copy('room_code')" class='btn colour-theme__bg_primary'>Copy</button>
 			</span>
 			<table id='members_table' class=''>
 				<thead>
@@ -54,29 +56,30 @@
 			<div class='controls__title'>
 				<span>
 					<span id='title'><b>...</b> &mdash; ...</span>
-					<button class='btn' onclick='alert("copied!")'>Copy</button>
+					<button class='btn colour-theme__bg_primary' onclick="copy('title')">Copy</button>
 				</span>
 				<span id='duration' class='player__duration'>--:--</span>
 			</div>
 			<div id='progress' class='controls__progress'>
-				<div></div>
-				<div id='progressBar'></div>
+				<div class='colour-theme__bg_primary'></div>
+				<div id='progressBar' class='colour-theme__accent'></div>
+				<div id='progressHint' class='colour-theme__accent'>00:00</div>
 			</div>
 			<div class='controls__buttons'>
-				<button id='repeatBtn' class='btn'><i class='icon-repeat'></i></button>
-				<button id='prevBtn' class='btn'><i class='icon-next reverse'></i></button>
-				<button id='playBtn' class='btn'><i class='icon-play'></i></button>
-				<button id='pauseBtn' class='btn'><i class='icon-pause'></i></button>
-				<button id='nextBtn' class='btn'><i class='icon-next'></i></button>
-				<button id='shuffleBtn' class='btn'><i class='icon-shuffle'></i></button>
+				<button id='repeatBtn' class='colour-theme__font_secondary'><i class='icon-repeat'></i></button>
+				<button id='prevBtn' class='colour-theme__font_secondary'><i class='icon-next reverse'></i></button>
+				<button id='playBtn' class='colour-theme__font_secondary'><i class='icon-play'></i></button>
+				<button id='pauseBtn' class='colour-theme__font_secondary'><i class='icon-pause'></i></button>
+				<button id='nextBtn' class='colour-theme__font_secondary'><i class='icon-next'></i></button>
+				<button id='shuffleBtn' class='colour-theme__font_secondary'><i class='icon-shuffle'></i></button>
 			</div>
 		</div>
 
 		<!-- PLAYLIST -->
-		<div id='playlist' class='TODO room__cell' style='border: 3px solid red;'>
+		<div id='playlist' class='TODO room__cell' style='border: 0px solid red;'>
 			{% for track in room.playlist %}
 				<div id='{{ track.source_name }}-{{ track.source_id }}' class='playlist__track'>
-					<i class='btn core__after core__radius icon-play'></i>
+					<i class='btn core__after core__radius icon-play colour-theme__accent'></i>
 					<span class='title'>
 						<span><b>{{ track.author }}</b></span>
 						<span>{{ track.name }}</span>
@@ -92,6 +95,10 @@
 	{% block scripts %}
 		<script>
 			var playlist_obj = {{ room.playlist | tojson() }};
+
+			var copy = function (id) {
+				navigator.clipboard.writeText(document.getElementById(id).innerText);
+			};
 		</script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
