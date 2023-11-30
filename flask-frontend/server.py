@@ -1,17 +1,46 @@
-from flask import Flask, render_template, redirect, make_response, request as incame_request
+from flask import Flask, render_template, redirect, make_response, request as incame_request, g
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
+from flask_login import login_user, login_required, logout_user, LoginManager, current_user
+
 import requests as rq
 import json
 from hashlib import md5
-from flask_socketio import SocketIO, emit, send, join_room, leave_room
-from time import sleep
-from os import environ as env
 
+from time import sleep
+from os import environ as env, listdir
 
 app = Flask(__name__)
 app.debug = True
 app.config['SECRET_KEY'] = env.get('VOID_SECRET') or '5upErS3cr37'
 API_URL = 'http://localhost:8000/api'
 socketio = SocketIO(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+class User:
+    def __init__(self, username):
+        self.is_active = True
+        self.is_authenticated = True
+        self.is_anonymous = False
+        self.username = username
+
+    def get_id(self):
+        return self.username
+
+
+COLOUR_THEMES = list(map(lambda filename: filename.replace('.css', ''), listdir('static/css/themes')))
+DEFAULT_THEME = 'yandex'
+
+
+@app.context_processor
+def set_colour_theme():
+    theme_name = incame_request.cookies.get('colour-theme') or DEFAULT_THEME
+    return dict(colour_theme=theme_name.lower() if theme_name in COLOUR_THEMES else DEFAULT_THEME)
+
+@login_manager.user_loader
+def user_loader(username: str):
+    return User(username)
 
 
 @app.get('/')
@@ -38,16 +67,26 @@ def loginValidation():
     api_response = rq.get(f'{API_URL}/users/{login["username"]}').text
     try:
         user = json.loads(api_response)
+        user_obj = User(user['username'])
     except json.decoder.JSONDecodeError:
         response = make_response(render_template('login.html', wrong_credentials=True))
     else:
         if md5(bytes(login['password'], 'utf-8')).hexdigest() == user['password']:
+            login_user(user_obj)
+            print(current_user.is_authenticated)
             response = make_response(redirect(f'/profile/{login["username"]}'))
-            # assign this user their session somehow
         else:
             response = make_response(render_template('login.html', wrong_credentials=True))
     finally:
         return response
+
+@app.get('/logout')
+@login_required
+def logoutUser():
+    username = current_user.username
+    logout_user()
+    print(f'{username} LOGGED OUT')
+    return redirect(f'/profile/{username}') 
 
 
 

@@ -3,11 +3,20 @@
 {% block title %}{{ user.username }}'s Profile{% endblock %}
 
 {% block head %}
-
+	<link href='/static/css/profile.css' rel='stylesheet'>
 {% endblock %}
 
 {% block body %}
-	{% for key, value in user.items() %}
-	<b>{{ key }}: </b> {{ value }}<br>
-	{% endfor %}
+	<div class='statistics'>
+		{% for key, value in user.items() %}
+			<b>{{ key }}: </b> {{ value }}<br>
+		{% endfor %}
+	</div>
+	{% if current_user.username == user.username %}
+		<div class='manage'>
+			<form method='GET' action='/logout'>
+				<button>Log out</button>
+			</form>
+		</div>
+	{% endif %}
 {% endblock %}
