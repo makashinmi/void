@@ -187,8 +187,10 @@ footer {
 
 .playlist__track i {
 	padding: 0 !important;
-	position: relative;
-	margin: 6px;
+}
+
+.playlist__track button {
+	background: none;
 }
 
 .playlist__track i::before {

@@ -15,10 +15,7 @@
 		<div id='search' class='room__cell'>
 			<form id='search__form'>
 				<div class='input-group flex-nowrap'>
-					<div class='core__after core__radius colour-theme__bg_secondary'>
-						<input id='search__input' class='core__radius form-control colour-theme__bg_secondary' placeholder='Type your search query...' type='text'>
-					</div>
-						<button id='searchButton' class='colour-theme__bg_primary core__after core__radius'>Search</button>
+					<input id='search__input' class='core__radius form-control colour-theme__bg_secondary' placeholder='Type your search query...' type='text'>
 				</div>
 			</form>
 			<div id='search__results'></div>
@@ -79,7 +76,9 @@
 		<div id='playlist' class='TODO room__cell' style='border: 0px solid red;'>
 			{% for track in room.playlist %}
 				<div id='{{ track.source_name }}-{{ track.source_id }}' class='playlist__track'>
+					<button>
 					<i class='btn core__after core__radius icon-play colour-theme__accent'></i>
+					</button>
 					<span class='title'>
 						<span><b>{{ track.author }}</b></span>
 						<span>{{ track.name }}</span>

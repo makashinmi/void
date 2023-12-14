@@ -1,26 +1,23 @@
 import { socket } from './websockets.js';
 import { player } from './player.js';
 
-const searchForm = document.getElementById('search__form');
+var searchForm = document.getElementById('search__form');
 const searchInput = document.getElementById('search__input');
-const searchButton = searchInput.nextElementSibling;
 const query_results = document.getElementById('search__results');
 const playlist = document.getElementById('playlist');
 
 searchForm.addEventListener('submit', (e) => {
 	e.preventDefault();
 	if (searchInput.value) {
-		searchInput.setAttribute('disabled', '');
-		searchButton.setAttribute('disabled', '');
 		query_results.innerHTML = `Searching for "${searchInput.value}"...`;
 		socket.emit('track_query', searchInput.value);
 		searchInput.value = '';
 	};
 });
 
-searchButton.addEventListener('click', (e) => {
-	searchForm.submit();
-});
+// searchButton.addEventListener('click', (e) => {
+//	searchForm.submit();
+//});
 
 socket.on('connect', function() {
 	socket.emit('my event', {data: "I'm connected!"});
@@ -40,7 +37,7 @@ var formatTime = function (duration_seconds) {
 
 socket.on('track_query_options', (options) => {
 	searchInput.removeAttribute('disabled');
-	searchButton.removeAttribute('disabled');
+	//searchButton.removeAttribute('disabled');
 	query_results.innerHTML = '';
 
 	for(let i = 0; i < options.length; i++) {
@@ -64,9 +61,10 @@ socket.on('track_query_download_progress', (data_obj) => {
 
 socket.on('track_query_download_finish', (track) => {
 	var temp = document.createElement('div');
+	temp.id = `${track.source_name}-${track.source_id}` // -${player.playlist.length}`;
+	temp.className = 'playlist__track'; 
 	temp.innerHTML = `
-	<div id='${track.source_name}-${track.source_id}-${player.playlist.length}' class='playlist__track'>
-		<i class='btn core__after core__radius icon-play'></i>
+		<i class='btn core__after core__radius icon-play colour-theme__accent'></i>
 		<span class='title'>
 			<span><b>${ track.author }</b></span>
 			<span>${ track.name }</span>
@@ -74,11 +72,10 @@ socket.on('track_query_download_finish', (track) => {
 		<span class='duration'>
 			(${ formatTime(track.duration_seconds) })
 		</span>
-	</div>
 	`;
-	temp.addEventListener('click', player.play.bind(player, player.playlist.length));
+	temp.addEventListener('click', player.skipHard.bind(player, player.playlist.length));
 	console.log(track)
 	playlist.removeChild(document.getElementById(track.source_id));
 	playlist.appendChild(temp);
-	player.playlist.push(track);
+	player.addTrack(track);
 });

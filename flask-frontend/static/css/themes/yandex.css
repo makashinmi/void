@@ -20,7 +20,7 @@
 	color: var(--accent-font);
 	background-color: var(--accent-bg);
 }
-.input-form .input-group button::after {
+.input-form .input-group button, .input-form .input-group button::after {
 	border: none;
 	background-color: var(--accent-bg) !important;
 }

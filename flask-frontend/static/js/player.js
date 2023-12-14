@@ -32,6 +32,12 @@ Player.prototype = {
 	init_sync: function(object) {
 		socket.emit('init_player_sync', object);
 	},
+	addTrack: function (track) {
+		var self = this;
+
+		self.playlist.push(track);
+		self.playlist_order.push(self.playlist_order.length);
+	},
 	fastforward: function(e) {
 		var self = this;
 
